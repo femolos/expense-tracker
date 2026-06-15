@@ -18,6 +18,11 @@ h1 {
     margin: 0;
 }
 
+/*
+  Keep the page from getting too wide, and lay out the
+  three sections in a grid: "log" on top, "stats" and
+  "form" side by side below.
+*/
 main {
     max-width: 800px;
     margin: 0 auto;
