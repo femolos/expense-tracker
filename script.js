@@ -3,6 +3,8 @@ let expenses = [];
 let filterCategory = "all";
 let sortBy = "date-desc";
 
+let currentTotal = 0;
+
 const form = document.querySelector("#expense-form");
 const descriptionInput = document.querySelector("#description");
 const amountInput = document.querySelector("#amount");
@@ -20,6 +22,9 @@ const expenseCountEl = document.querySelector("#expense-count");
 const overallTotalEl = document.querySelector("#overall-total");
 const categoryTotalsList = document.querySelector("#category-totals");
 
+const convertBtn = document.querySelector("#convert-btn");
+const convertResult = document.querySelector("#convert-result");
+
 function saveExpenses() {
     localStorage.setItem("expenses", JSON.stringify(expenses));
 }
@@ -34,7 +39,6 @@ function loadExpenses() {
     try {
         return JSON.parse(saved);
     } catch (error) {
-        // If the saved data is broken, just start fresh
         return [];
     }
 }
@@ -50,7 +54,6 @@ function getVisibleExpenses() {
         }
     }
 
-    // Sort the visible list based on the dropdown
     visible.sort((a, b) => {
         if (sortBy === "date-asc") {
             return new Date(a.date) - new Date(b.date);
@@ -73,7 +76,6 @@ function getVisibleExpenses() {
 function render() {
     const visibleExpenses = getVisibleExpenses();
 
-    // Clear the table body
     expenseListBody.innerHTML = "";
 
     if (visibleExpenses.length === 0) {
@@ -82,7 +84,6 @@ function render() {
         emptyMessage.hidden = true;
     }
 
-    // Add one row per expense
     for (let i = 0; i < visibleExpenses.length; i++) {
         const expense = visibleExpenses[i];
 
@@ -114,6 +115,7 @@ function render() {
 
     expenseCountEl.textContent = visibleExpenses.length;
     overallTotalEl.textContent = "$" + overallTotal.toFixed(2);
+    currentTotal = overallTotal;
 
     categoryTotalsList.innerHTML = "";
 
@@ -132,7 +134,6 @@ form.addEventListener("submit", (event) => {
     const category = categoryInput.value;
     const date = dateInput.value;
 
-    // Validate the inputs
     if (description === "") {
         formError.textContent = "Description is required.";
         formError.hidden = false;
@@ -164,6 +165,7 @@ form.addEventListener("submit", (event) => {
     saveExpenses();
     render();
     form.reset();
+    setDateToToday();
 });
 
 expenseListBody.addEventListener("click", (event) => {
@@ -189,5 +191,41 @@ sortBySelect.addEventListener("change", () => {
     render();
 });
 
+convertBtn.addEventListener("click", async () => {
+    convertBtn.disabled = true;
+    convertBtn.textContent = "Converting...";
+    convertResult.textContent = "";
+
+    try {
+        const response = await fetch("https://open.er-api.com/v6/latest/USD");
+
+        if (!response.ok) {
+            throw new Error("Request failed");
+        }
+
+        const data = await response.json();
+        const rate = data.rates.EUR;
+
+        const converted = currentTotal * rate;
+        convertResult.textContent = "≈ €" + converted.toFixed(2) + " EUR";
+    } catch (error) {
+        convertResult.textContent = "Could not convert currency. Please try again.";
+    } finally {
+        convertBtn.disabled = false;
+        convertBtn.textContent = "Convert to EUR";
+    }
+});
+
+function setDateToToday() {
+    const today = new Date();
+
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+
+    dateInput.value = `${year}-${month}-${day}`;
+}
+
 expenses = loadExpenses();
+setDateToToday();
 render();
