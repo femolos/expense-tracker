@@ -3,9 +3,27 @@ body {
     font-optical-sizing: auto;
     font-weight: normal;
     font-style: normal;
+    margin: 0;
+    padding: 1rem;
 }
 
-.grid {
+header,
+footer {
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem 0;
+}
+
+h1 {
+    margin: 0;
+}
+
+main {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+main {
     display: grid;
     grid-template-areas:
         "log log"
@@ -17,4 +35,70 @@ body {
     grid-area: log;
 }
 
-/* Add @media query later */
+#stats {
+    grid-area: stats;
+}
+
+#form {
+    grid-area: form;
+}
+
+section {
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    text-align: left;
+    padding: 0.5rem;
+    border-bottom: 1px solid #eeeeee;
+}
+
+#empty-message {
+    text-align: center;
+}
+
+form p {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+label {
+    width: 110px;
+}
+
+input,
+select {
+    padding: 0.25rem;
+}
+
+button {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
+
+#form-error {
+    color: #cc0000;
+}
+
+@media (max-width: 700px) {
+    main {
+        grid-template-areas:
+            "log log"
+            "stats stats"
+            "form form";
+    }
+
+    form p {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
