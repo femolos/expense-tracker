@@ -2,6 +2,7 @@
 <htm lang="en">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Expense Tracker</title>
         <link rel="stylesheet" href="styles.css">
         <script src="script.js"></script>
@@ -18,6 +19,31 @@
         </header>
         <main>
             <section class="grid" id="log">
+                <h2>Expenses</h2>
+
+                <div class="controls">
+                    <p>
+                        <label for="category-filter">Filter by category:</label>
+                        <select id="category-filter">
+                            <option value="all">All</option>
+                            <option value="food">Food</option>
+                            <option value="transportation">Transportation</option>
+                            <option value="housing">Housing</option>
+                            <option value="entertainment">Entertainment</option>
+                            <option value="miscellaneous">Misc.</option>
+                        </select>
+                    </p>
+
+                    <p>
+                        <label for="sort-by">Sort by:</label>
+                        <select id="sort-by">
+                            <option value="date-desc">Date (newest first)</option>
+                            <option value="date-asc">Date (oldest first)</option>
+                            <option value="amount-desc">Amount (highest first)</option>
+                            <option value="amount-asc">Amount (lowest first)</option>
+                        </select>
+                    </p>
+                </div>
                 <table>
                     <!--Insert Table of Elements Here-->
                 </table>
