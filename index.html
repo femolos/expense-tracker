@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<htm lang="en">
+<html lang="en">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Expense Tracker</title>
         <link rel="stylesheet" href="styles.css">
-        <script src="script.js"></script>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" 
               crossorigin>
@@ -17,16 +17,75 @@
             <h1>Expense Tracker</h1>
         </header>
         <main>
-            <section class="grid" id="log">
+            <section id="log">
+                <h2>Expenses</h2>
+
+                <div class="controls">
+                    <p>
+                        <label for="category-filter">Filter by category:</label>
+                        <select id="category-filter">
+                            <option value="All">All</option>
+                            <option value="Food">Food</option>
+                            <option value="Transportation">Transportation</option>
+                            <option value="Housing">Housing</option>
+                            <option value="Entertainment">Entertainment</option>
+                            <option value="Misc.">Misc.</option>
+                        </select>
+                    </p>
+
+                    <p>
+                        <label for="sort-by">Sort by:</label>
+                        <select id="sort-by">
+                            <option value="date-desc">Date (newest first)</option>
+                            <option value="date-asc">Date (oldest first)</option>
+                            <option value="amount-desc">Amount (highest first)</option>
+                            <option value="amount-asc">Amount (lowest first)</option>
+                        </select>
+                    </p>
+                </div>
+
                 <table>
-                    <!--Insert Table of Elements Here-->
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Category</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="expense-list">
+                        <!--Insert Table of Expenses Here-->
+                    </tbody>
                 </table>
+
+                <p id="empty-message" hidden>
+                    No expenses yet. Add one using the form below.
+                </p>
             </section>
-            <section class="grid" id="stats">
-                <!--Insert the running total here-->
+
+            <section id="stats">
+                <h2>Totals</h2>
+
+                <p>Number of expenses:</p>
+
+                <p id="expense-count">0</p>
+
+                <p>Overall total:</p>
+
+                <p id="overall-total">$0.00</p>
+
+                <h3>By category</h3>
+                <ul id="category-totals">
+                    <!--Insert the running totals here-->
+                </ul>
+
             </section>
-            <section class="grid" id="form">
-                <form>
+
+            <section id="form">
+                <h2>Add an Expense</h2>
+
+                <form id="expense-form">
                     <p>
                         <label for="description">Description:</label>
                         <input type="text" id="description" name="description" required>
@@ -40,11 +99,11 @@
                     <p>
                         <label for="category">Category:</label>
                         <select id="category" name="category">
-                            <option value="food">Food</option>
-                            <option value="transportation">Transportation</option>
-                            <option value="housing">Housing</option>
-                            <option value="entertainment">Entertainment</option>
-                            <option value="miscellaneous">Misc.</option>
+                            <option value="Food">Food</option>
+                            <option value="Transportation">Transportation</option>
+                            <option value="Housing">Housing</option>
+                            <option value="Entertainment">Entertainment</option>
+                            <option value="Misc.">Misc.</option>
                         </select>
                     </p>
 
@@ -52,11 +111,17 @@
                         <label for="date">Date:</label>
                         <input type="date" id="date" name="date" required>
                     </p>
+
+                    <p id="form-error" hidden></p>
+
+                    <button type="submit">Add Expense</button>
                 </form>
             </section>
         </main>
         <footer>
-            <!--Just add a copyright potentially-->
+            <p>&copy; 2026 Oluwafemi Olosunde</p>
         </footer>
+
+        <script src="script.js"></script>
     </body>
 </html>
