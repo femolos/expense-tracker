@@ -109,30 +109,45 @@ function render() {
 
 // Renders the table rows (or the empty-state message)
 function renderTable(visibleExpenses) {
+    // Clear any existing rows
+    expenseListBody.innerHTML = "";
+
     if (visibleExpenses.length === 0) {
-        expenseListBody.innerHTML = "";
         emptyMessage.hidden = false;
         return;
     }
 
     emptyMessage.hidden = true;
 
-    // Build one row of HTML per expense, then join them all together
-    const rowsHtml = visibleExpenses
-        .map((expense) => {
-            return `
-                <tr>
-                    <td>${expense.description}</td>
-                    <td>$${expense.amount.toFixed(2)}</td>
-                    <td>${expense.category}</td>
-                    <td>${expense.date}</td>
-                    <td><button class="delete-btn" data-id="${expense.id}">Delete</button></td>
-                </tr>
-            `;
-        })
-        .join("");
+    // Build one <tr> per expense using DOM methods so that user-entered
+    // text (e.g. the description) is always treated as plain text,
+    // never as HTML — this prevents XSS if someone types in a script tag.
+    visibleExpenses.forEach((expense) => {
+        const tr = document.createElement("tr");
 
-    expenseListBody.innerHTML = rowsHtml;
+        // Helper: create a <td> whose text content is set safely
+        function createCell(text) {
+            const td = document.createElement("td");
+            td.textContent = text;
+            return td;
+        }
+
+        tr.appendChild(createCell(expense.description));
+        tr.appendChild(createCell("$" + expense.amount.toFixed(2)));
+        tr.appendChild(createCell(expense.category));
+        tr.appendChild(createCell(expense.date));
+
+        // Delete button — data-id links it back to the expense
+        const actionTd = document.createElement("td");
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "Delete";
+        deleteBtn.className = "delete-btn";
+        deleteBtn.dataset.id = expense.id;
+        actionTd.appendChild(deleteBtn);
+        tr.appendChild(actionTd);
+
+        expenseListBody.appendChild(tr);
+    });
 }
 
 // Updates the expense count, overall total, and per-category totals
@@ -190,7 +205,7 @@ form.addEventListener("submit", (event) => {
         return;
     }
 
-    // Inputs are valid, hide any previous error message
+    // Inputs are valid — hide any previous error message
     formError.hidden = true;
 
     expenses.push({
