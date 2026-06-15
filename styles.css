@@ -6,13 +6,15 @@ body {
 }
 
 .grid {
-    display:grid;
-    grid-template-columns: 1fr 1fr;
+    display: grid;
+    grid-template-areas:
+        "log log"
+        "stats form";
     gap: 1rem;
 }
 
 #log {
-    grid-column: span 2;
+    grid-area: log;
 }
 
 /* Add @media query later */
