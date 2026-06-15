@@ -1,8 +1,18 @@
+body {
+    font-family: "Figtree", -apple-system, "Segoe UI", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: normal;
+    font-style: normal;
+}
+
 .grid {
     display:grid;
     grid-template-columns: 1fr 1fr;
+    gap: 1rem;
 }
 
 #log {
     grid-column: span 2;
 }
+
+/* Add @media query later */
