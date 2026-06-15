@@ -44,15 +44,48 @@
                         </select>
                     </p>
                 </div>
+
                 <table>
-                    <!--Insert Table of Elements Here-->
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Category</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="expense-list">
+                        <!--Insert Table of Expenses Here-->
+                    </tbody>
                 </table>
+
+                <p id="empty-message" hidden>
+                    No expenses yet. Add one using the form below.
+                </p>
             </section>
+
             <section class="grid" id="stats">
-                <!--Insert the running total here-->
+                <h2>Totals</h2>
+
+                <p>Number of expenses:</p>
+
+                <p id="expense-count">0</p>
+
+                <p>Overall total:</p>
+
+                <p id="overall-total">$0.00</p>
+
+                <h3>By category</h3>
+                <ul id="category-totals">
+                    <!--Insert the running totals here-->
+                </ul>
+
             </section>
+
             <section class="grid" id="form">
-                <form>
+                <h2>Add an Expense</h2>
+
+                <form id="expense-form">
                     <p>
                         <label for="description">Description:</label>
                         <input type="text" id="description" name="description" required>
@@ -78,11 +111,15 @@
                         <label for="date">Date:</label>
                         <input type="date" id="date" name="date" required>
                     </p>
+
+                    <p id="form-error" hidden></p>
+
+                    <button type="submit">Add Expense</button>
                 </form>
             </section>
         </main>
         <footer>
-            <!--Just add a copyright potentially-->
+            <p>&copy; 2026 Oluwafemi Olosunde</p>
         </footer>
     </body>
 </html>
